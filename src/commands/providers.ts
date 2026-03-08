@@ -1,0 +1,14 @@
+import { ensureRuntimeIndex } from "../data/remote.js";
+import { renderProvidersTable } from "../format/table.js";
+
+export async function runProvidersCommand(): Promise<void> {
+  const { index } = await ensureRuntimeIndex();
+  const providers = [...index.providers].sort((left, right) => {
+    const leftLabel = left.display_name ?? left.name ?? left.id;
+    const rightLabel = right.display_name ?? right.name ?? right.id;
+
+    return leftLabel.localeCompare(rightLabel);
+  });
+
+  process.stdout.write(`${renderProvidersTable(providers)}\n`);
+}
