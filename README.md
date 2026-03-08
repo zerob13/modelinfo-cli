@@ -2,6 +2,8 @@
 
 `modelinfo` is a Bun-first TypeScript CLI for exploring AI model metadata from [PublicProviderConf](https://github.com/ThinkInAIXYZ/PublicProviderConf). It keeps a local normalized index for fast lookups, ships with a bundled seed dataset so a fresh install can work offline, and refreshes from upstream when the version file changes.
 
+Same dataset, web version: [models.anya2a.com](https://models.anya2a.com/).
+
 ## Features
 
 - Fast default lookup with local normalized index
@@ -95,6 +97,14 @@ seed/
 - `modelinfo doctor`: show cache and version status
 
 ## Publish
+
+```bash
+bun release
+```
+
+`bun release` is an interactive release flow. It lets you choose the next version, publish to `latest` or `beta`, runs checks, creates a release commit and git tag, then publishes to npm.
+
+For a manual publish without the helper:
 
 ```bash
 bun run build:seed
