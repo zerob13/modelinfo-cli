@@ -1,8 +1,19 @@
 # modelinfo — a fast CLI to explore AI model capabilities, pricing, limits, and provider metadata.
 
+[![npm version](https://img.shields.io/npm/v/modelinfo.svg)](https://www.npmjs.com/package/modelinfo)
+[![npm downloads](https://img.shields.io/npm/dm/modelinfo.svg)](https://www.npmjs.com/package/modelinfo)
+[![CI](https://img.shields.io/github/actions/workflow/status/zerob13/modelinfo-cli/ci.yml?branch=master&label=ci)](https://github.com/zerob13/modelinfo-cli/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/modelinfo.svg)](https://github.com/zerob13/modelinfo-cli/blob/master/LICENSE)
+[![node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![bun](https://img.shields.io/badge/bun-%3E%3D1.0-000000?logo=bun&logoColor=white)](https://bun.sh/)
+
 `modelinfo` is a Bun-first TypeScript CLI for exploring AI model metadata from [PublicProviderConf](https://github.com/ThinkInAIXYZ/PublicProviderConf). It keeps a local normalized index for fast lookups, ships with a bundled seed dataset so a fresh install can work offline, and refreshes from upstream when the version file changes.
 
-Same dataset, web version: [models.anya2a.com](https://models.anya2a.com/).
+Links:
+
+- npm package: [modelinfo](https://www.npmjs.com/package/modelinfo)
+- Web version: [models.anya2a.com](https://models.anya2a.com/)
+- Source: [zerob13/modelinfo-cli](https://github.com/zerob13/modelinfo-cli)
 
 ## Features
 
@@ -20,6 +31,22 @@ Same dataset, web version: [models.anya2a.com](https://models.anya2a.com/).
 - Node.js 20+ for running the published CLI package
 
 ## Install
+
+Install globally:
+
+```bash
+npm install -g modelinfo
+```
+
+Or run without installing:
+
+```bash
+bunx modelinfo gpt-4o
+# or
+npx modelinfo gpt-4o
+```
+
+For local development:
 
 ```bash
 bun install
@@ -52,6 +79,8 @@ modelinfo update
 modelinfo doctor
 modelinfo gpt-4o --output json
 ```
+
+If you prefer the web UI for the same dataset, use [models.anya2a.com](https://models.anya2a.com/).
 
 ### Provider filters
 
