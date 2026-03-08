@@ -103,3 +103,21 @@ npm publish
 ```
 
 `prepack` already runs the seed build and TypeScript build, so a regular `npm publish` includes `dist/` and `seed/`.
+
+## Release automation
+
+This repository includes GitHub Actions for CI and automated releases:
+
+- `CI`: runs format check, lint, test, and build on pushes and pull requests
+- `Release Please`: watches commits on `master`, opens or updates a release PR, and automatically bumps the version once the release PR is merged
+- npm publish runs automatically after a release is created
+
+Required GitHub secret:
+
+- `NPM_TOKEN`: npm automation token with publish permission for `modelinfo`
+
+Recommended commit style:
+
+- `feat: add provider aliases`
+- `fix: handle missing cache version`
+- `chore: update dependencies`
