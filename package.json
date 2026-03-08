@@ -1,6 +1,6 @@
 {
   "name": "modelinfo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A fast CLI to explore AI model capabilities, pricing, limits, and provider metadata.",
   "keywords": [
     "ai",

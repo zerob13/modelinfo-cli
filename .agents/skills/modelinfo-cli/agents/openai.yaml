@@ -1,6 +1,6 @@
 interface:
   display_name: "modelinfo CLI"
   short_description: "Run modelinfo commands to inspect and compare model metadata quickly."
-  default_prompt: "Use the modelinfo CLI to answer this request."
+  default_prompt: "Use bunx modelinfo to answer this request with the published CLI."
 policy:
   allow_implicit_invocation: true

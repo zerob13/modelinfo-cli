@@ -1,6 +1,6 @@
 ---
 name: modelinfo-cli
-description: Use when Codex needs to inspect, search, compare, or troubleshoot AI model metadata with the modelinfo CLI in this repository or from an installed package. Trigger for tasks such as looking up a model, searching by keyword, listing providers, listing models under a provider, comparing two models, checking cache/update state, or producing JSON output from modelinfo commands. Do not use for editing the CLI implementation itself unless the task also requires running the CLI to verify behavior.
+description: Use when Codex needs to inspect, search, compare, or troubleshoot AI model metadata with the published modelinfo CLI. Trigger for tasks such as looking up a model, searching by keyword, listing providers, listing models under a provider, comparing two models, checking cache/update state, or producing JSON output from modelinfo commands. Use global `modelinfo`, `bunx modelinfo`, or `npx modelinfo`.
 ---
 
 # modelinfo CLI
@@ -9,13 +9,13 @@ Run the CLI instead of guessing model metadata.
 
 ## Choose the execution path
 
-- Prefer `bun run src/cli.ts ...` while working inside this repository and before rebuilding.
-- Use `node dist/cli.js ...` or `bun run dist/cli.js ...` after `bun run build`.
-- Use `bunx modelinfo ...` or `npx modelinfo ...` when the package is installed and repository paths are not relevant.
+- Prefer `modelinfo ...` when the CLI is already installed globally.
+- Prefer `bunx modelinfo ...` for normal usage against the published package.
+- Use `npx modelinfo ...` when Bun is unavailable but the published package should still be used.
 
 ## Start with these commands
 
-- Inspect one model: `modelinfo <model>`
+- Inspect one model: `modelinfo <model>` or `bunx modelinfo <model>`
 - Inspect one model with provider filter: `modelinfo <model> --provider <provider>`
 - Search models: `modelinfo search <keyword>`
 - Search as JSON: `modelinfo search <keyword> --output json`
@@ -45,7 +45,7 @@ Run the CLI instead of guessing model metadata.
 
 ## Minimal workflow
 
-1. If the user asks about one model, run `modelinfo <model>` first.
+1. If the user asks about one model, run `modelinfo <model>` first, or `bunx modelinfo <model>` if the CLI is not installed.
 2. If the result is ambiguous, rerun with `--provider` or present the candidate rows.
 3. If the user needs machine-readable output, rerun the same command with `--output json`.
 4. If the cache looks stale or missing, run `modelinfo doctor`, then `modelinfo update` if needed.
