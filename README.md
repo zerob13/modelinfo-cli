@@ -52,6 +52,16 @@ For local development:
 bun install
 ```
 
+## Install as Agent Skill
+
+Use with AI coding agents (Claude Code, Cursor, Codex, etc.):
+
+```bash
+npx skills add zerob13/modelinfo-cli
+```
+
+See [skills.sh](https://skills.sh) for more information.
+
 ## Development
 
 ```bash
