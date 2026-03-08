@@ -48,6 +48,7 @@ modelinfo cost gpt-4o
 modelinfo limit gpt-4o
 modelinfo update
 modelinfo doctor
+modelinfo gpt-4o --output json
 ```
 
 ### Provider filters
@@ -59,6 +60,7 @@ modelinfo gpt-4o --provider openai
 modelinfo search gpt --provider openrouter
 modelinfo cost gpt-4o --provider openai
 modelinfo diff gpt-4o gpt-4.1 --provider-a openai --provider-b openai
+modelinfo search qwen --provider openrouter --output json
 ```
 
 ## Cache layout

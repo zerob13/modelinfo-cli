@@ -13,7 +13,10 @@ export function createVersionState(input: Partial<CacheVersionState>): CacheVers
   };
 }
 
-export function isRemoteNewer(remoteUpdatedAt: number, localUpdatedAt: number | undefined): boolean {
+export function isRemoteNewer(
+  remoteUpdatedAt: number,
+  localUpdatedAt: number | undefined,
+): boolean {
   if (!localUpdatedAt) {
     return true;
   }

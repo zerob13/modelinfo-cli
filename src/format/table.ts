@@ -1,7 +1,12 @@
 import Table from "cli-table3";
 
 import { reasonLabel } from "../search/rank.js";
-import type { IndexedModel, IndexedProvider, RankedModelMatch, RankedProviderMatch } from "../data/types.js";
+import type {
+  IndexedModel,
+  IndexedProvider,
+  RankedModelMatch,
+  RankedProviderMatch,
+} from "../data/types.js";
 import { formatCost, formatLimit, modelLabel, providerLabel } from "./value.js";
 
 function createTable(head: string[]) {
@@ -16,7 +21,10 @@ function createTable(head: string[]) {
   });
 }
 
-export function renderModelMatchesTable(matches: RankedModelMatch[], options?: { includeReason?: boolean }): string {
+export function renderModelMatchesTable(
+  matches: RankedModelMatch[],
+  options?: { includeReason?: boolean },
+): string {
   const head = ["Model", "Provider", "Type", "Context", "Input Cost", "Output Cost"];
   if (options?.includeReason) {
     head.push("Match");
@@ -80,14 +88,46 @@ export function renderDiffTable(left: IndexedModel, right: IndexedModel): string
   const rows: Array<[string, string, string]> = [
     ["Provider", providerLabel(left), providerLabel(right)],
     ["Type", left.type ?? "-", right.type ?? "-"],
-    ["Input Modalities", left.input_modalities.join(", ") || "-", right.input_modalities.join(", ") || "-"],
-    ["Output Modalities", left.output_modalities.join(", ") || "-", right.output_modalities.join(", ") || "-"],
-    ["Reasoning", left.reasoning_supported === undefined ? "-" : left.reasoning_supported ? "yes" : "no", right.reasoning_supported === undefined ? "-" : right.reasoning_supported ? "yes" : "no"],
-    ["Tool Call", left.tool_call === undefined ? "-" : left.tool_call ? "yes" : "no", right.tool_call === undefined ? "-" : right.tool_call ? "yes" : "no"],
-    ["Attachment", left.attachment === undefined ? "-" : left.attachment ? "yes" : "no", right.attachment === undefined ? "-" : right.attachment ? "yes" : "no"],
-    ["Temperature", left.temperature === undefined ? "-" : left.temperature ? "yes" : "no", right.temperature === undefined ? "-" : right.temperature ? "yes" : "no"],
-    ["Vision", left.vision === undefined ? "-" : left.vision ? "yes" : "no", right.vision === undefined ? "-" : right.vision ? "yes" : "no"],
-    ["Open Weights", left.open_weights === undefined ? "-" : left.open_weights ? "yes" : "no", right.open_weights === undefined ? "-" : right.open_weights ? "yes" : "no"],
+    [
+      "Input Modalities",
+      left.input_modalities.join(", ") || "-",
+      right.input_modalities.join(", ") || "-",
+    ],
+    [
+      "Output Modalities",
+      left.output_modalities.join(", ") || "-",
+      right.output_modalities.join(", ") || "-",
+    ],
+    [
+      "Reasoning",
+      left.reasoning_supported === undefined ? "-" : left.reasoning_supported ? "yes" : "no",
+      right.reasoning_supported === undefined ? "-" : right.reasoning_supported ? "yes" : "no",
+    ],
+    [
+      "Tool Call",
+      left.tool_call === undefined ? "-" : left.tool_call ? "yes" : "no",
+      right.tool_call === undefined ? "-" : right.tool_call ? "yes" : "no",
+    ],
+    [
+      "Attachment",
+      left.attachment === undefined ? "-" : left.attachment ? "yes" : "no",
+      right.attachment === undefined ? "-" : right.attachment ? "yes" : "no",
+    ],
+    [
+      "Temperature",
+      left.temperature === undefined ? "-" : left.temperature ? "yes" : "no",
+      right.temperature === undefined ? "-" : right.temperature ? "yes" : "no",
+    ],
+    [
+      "Vision",
+      left.vision === undefined ? "-" : left.vision ? "yes" : "no",
+      right.vision === undefined ? "-" : right.vision ? "yes" : "no",
+    ],
+    [
+      "Open Weights",
+      left.open_weights === undefined ? "-" : left.open_weights ? "yes" : "no",
+      right.open_weights === undefined ? "-" : right.open_weights ? "yes" : "no",
+    ],
     ["Knowledge", left.knowledge ?? "-", right.knowledge ?? "-"],
     ["Release Date", left.release_date ?? "-", right.release_date ?? "-"],
     ["Last Updated", left.last_updated ?? "-", right.last_updated ?? "-"],

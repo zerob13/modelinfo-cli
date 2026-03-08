@@ -8,7 +8,12 @@ import type {
   UnknownRecord,
 } from "./types.js";
 import { toNumber } from "../utils/numbers.js";
-import { stringArrayFromUnknown, toNonEmptyString, uniqueStrings, isRecord } from "../utils/strings.js";
+import {
+  stringArrayFromUnknown,
+  toNonEmptyString,
+  uniqueStrings,
+  isRecord,
+} from "../utils/strings.js";
 import { toTimestamp } from "../utils/time.js";
 
 function asRecord(value: unknown): UnknownRecord | undefined {
@@ -134,7 +139,9 @@ function normalizeModel(
     cost_input: toNumber(cost?.input) ?? toNumber(metadataPricing?.input),
     cost_output: toNumber(cost?.output) ?? toNumber(metadataPricing?.output),
     cost_cache_read:
-      toNumber(cost?.cache_read) ?? toNumber(metadataPricing?.cache_read) ?? toNumber(rawModel.cache_read),
+      toNumber(cost?.cache_read) ??
+      toNumber(metadataPricing?.cache_read) ??
+      toNumber(rawModel.cache_read),
     context_limit: toNumber(limit?.context) ?? toNumber(limit?.input),
     output_limit: toNumber(limit?.output),
     metadata_description: toDisplayString(metadata?.description),

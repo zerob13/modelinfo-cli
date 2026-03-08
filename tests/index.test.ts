@@ -1,6 +1,11 @@
 import { describe, expect, test } from "vitest";
 
-import { buildIndexDocument, pickStrongModelMatch, resolveModelCandidates, searchModels } from "../src/data/index.js";
+import {
+  buildIndexDocument,
+  pickStrongModelMatch,
+  resolveModelCandidates,
+  searchModels,
+} from "../src/data/index.js";
 import { normalizeDataset } from "../src/data/normalize.js";
 
 const dataset = {

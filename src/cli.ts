@@ -4,6 +4,7 @@ import { Command, Option } from "commander";
 
 import { APP_NAME, APP_VERSION } from "./core/config.js";
 import { isErrorWithMessage } from "./core/errors.js";
+import type { OutputFormat } from "./format/json.js";
 import { logError } from "./core/logger.js";
 import { runCapsCommand } from "./commands/caps.js";
 import { runCostCommand } from "./commands/cost.js";
@@ -17,7 +18,25 @@ import { runShowCommand } from "./commands/show.js";
 import { runUpdateCommand } from "./commands/update.js";
 
 const program = new Command();
-const knownCommands = new Set(["show", "search", "providers", "list", "update", "diff", "caps", "cost", "limit", "doctor", "help"]);
+const knownCommands = new Set([
+  "show",
+  "search",
+  "providers",
+  "list",
+  "update",
+  "diff",
+  "caps",
+  "cost",
+  "limit",
+  "doctor",
+  "help",
+]);
+
+function outputOption(): Option {
+  return new Option("-o, --output <format>", "Output format")
+    .choices(["table", "json"])
+    .default("table");
+}
 
 program
   .name(APP_NAME)
@@ -29,7 +48,8 @@ program
   .command("show")
   .argument("<model>", "Model id or name")
   .option("-p, --provider <provider>", "Filter by provider id/name/display_name")
-  .action(async (model: string, options: { provider?: string }) => {
+  .addOption(outputOption())
+  .action(async (model: string, options: { provider?: string; output?: OutputFormat }) => {
     await runShowCommand(model, options);
   });
 
@@ -37,25 +57,42 @@ program
   .command("search")
   .argument("<keyword>", "Keyword to search")
   .option("-p, --provider <provider>", "Filter by provider id/name/display_name")
-  .addOption(new Option("--limit <number>", "Limit the number of rows").argParser((value) => Number.parseInt(value, 10)))
-  .action(async (keyword: string, options: { provider?: string; limit?: number }) => {
-    await runSearchCommand(keyword, options);
-  });
+  .addOption(outputOption())
+  .addOption(
+    new Option("--limit <number>", "Limit the number of rows").argParser((value) =>
+      Number.parseInt(value, 10),
+    ),
+  )
+  .action(
+    async (
+      keyword: string,
+      options: { provider?: string; limit?: number; output?: OutputFormat },
+    ) => {
+      await runSearchCommand(keyword, options);
+    },
+  );
 
-program.command("providers").action(async () => {
-  await runProvidersCommand();
-});
+program
+  .command("providers")
+  .addOption(outputOption())
+  .action(async (options: { output?: OutputFormat }) => {
+    await runProvidersCommand(options);
+  });
 
 program
   .command("list")
   .argument("<provider>", "Provider id or name")
-  .action(async (provider: string) => {
-    await runListCommand(provider);
+  .addOption(outputOption())
+  .action(async (provider: string, options: { output?: OutputFormat }) => {
+    await runListCommand(provider, options);
   });
 
-program.command("update").action(async () => {
-  await runUpdateCommand();
-});
+program
+  .command("update")
+  .addOption(outputOption())
+  .action(async (options: { output?: OutputFormat }) => {
+    await runUpdateCommand(options);
+  });
 
 program
   .command("diff")
@@ -63,15 +100,23 @@ program
   .argument("<modelB>", "Right model")
   .option("--provider-a <provider>", "Provider filter for the left model")
   .option("--provider-b <provider>", "Provider filter for the right model")
-  .action(async (modelA: string, modelB: string, options: { providerA?: string; providerB?: string }) => {
-    await runDiffCommand(modelA, modelB, options);
-  });
+  .addOption(outputOption())
+  .action(
+    async (
+      modelA: string,
+      modelB: string,
+      options: { providerA?: string; providerB?: string; output?: OutputFormat },
+    ) => {
+      await runDiffCommand(modelA, modelB, options);
+    },
+  );
 
 program
   .command("caps")
   .argument("<model>", "Model id or name")
   .option("-p, --provider <provider>", "Filter by provider id/name/display_name")
-  .action(async (model: string, options: { provider?: string }) => {
+  .addOption(outputOption())
+  .action(async (model: string, options: { provider?: string; output?: OutputFormat }) => {
     await runCapsCommand(model, options);
   });
 
@@ -79,7 +124,8 @@ program
   .command("cost")
   .argument("<model>", "Model id or name")
   .option("-p, --provider <provider>", "Filter by provider id/name/display_name")
-  .action(async (model: string, options: { provider?: string }) => {
+  .addOption(outputOption())
+  .action(async (model: string, options: { provider?: string; output?: OutputFormat }) => {
     await runCostCommand(model, options);
   });
 
@@ -87,13 +133,17 @@ program
   .command("limit")
   .argument("<model>", "Model id or name")
   .option("-p, --provider <provider>", "Filter by provider id/name/display_name")
-  .action(async (model: string, options: { provider?: string }) => {
+  .addOption(outputOption())
+  .action(async (model: string, options: { provider?: string; output?: OutputFormat }) => {
     await runLimitCommand(model, options);
   });
 
-program.command("doctor").action(async () => {
-  await runDoctorCommand();
-});
+program
+  .command("doctor")
+  .addOption(outputOption())
+  .action(async (options: { output?: OutputFormat }) => {
+    await runDoctorCommand(options);
+  });
 
 try {
   const rawArgs = process.argv.slice(2);

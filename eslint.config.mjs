@@ -9,6 +9,7 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    files: ["**/*.ts"],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -17,6 +18,13 @@ export default tseslint.config(
     },
     rules: {
       "@typescript-eslint/consistent-type-imports": "error",
+      "no-console": "off",
+    },
+  },
+  {
+    files: ["scripts/**/*.ts", "tests/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 );

@@ -35,7 +35,11 @@ export function formatTimestamp(value: number | undefined): string {
   return new Date(value).toLocaleString();
 }
 
-export function isExpired(lastCheckedAt: number | undefined, intervalMs: number, now = Date.now()): boolean {
+export function isExpired(
+  lastCheckedAt: number | undefined,
+  intervalMs: number,
+  now = Date.now(),
+): boolean {
   if (!lastCheckedAt) {
     return true;
   }

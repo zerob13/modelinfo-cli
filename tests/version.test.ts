@@ -1,6 +1,11 @@
 import { describe, expect, test } from "vitest";
 
-import { createVersionState, getStaleState, isRemoteNewer, shouldCheckRemoteVersion } from "../src/data/version.js";
+import {
+  createVersionState,
+  getStaleState,
+  isRemoteNewer,
+  shouldCheckRemoteVersion,
+} from "../src/data/version.js";
 
 describe("version helpers", () => {
   test("detects stale state correctly", () => {

@@ -54,7 +54,10 @@ function buildModelTokens(model: NormalizeResult["models"][number]): string[] {
   ]).map((value) => value.toLowerCase());
 }
 
-export function buildIndexDocument(normalized: NormalizeResult, generatedAt = Date.now()): IndexDocument {
+export function buildIndexDocument(
+  normalized: NormalizeResult,
+  generatedAt = Date.now(),
+): IndexDocument {
   const providers: IndexedProvider[] = normalized.providers.map((provider) => {
     const searchTokens = buildProviderTokens(provider).map((value) => value.toLowerCase());
 
@@ -163,7 +166,10 @@ function maybeMatchField(
   return undefined;
 }
 
-function collectProviderFilterIds(indexDocument: IndexDocument, providerFilter?: string): Set<string> | undefined {
+function collectProviderFilterIds(
+  indexDocument: IndexDocument,
+  providerFilter?: string,
+): Set<string> | undefined {
   if (!providerFilter) {
     return undefined;
   }
@@ -176,7 +182,10 @@ function collectProviderFilterIds(indexDocument: IndexDocument, providerFilter?:
   return new Set(providerMatches.map((match) => match.provider.id));
 }
 
-export function searchProviders(indexDocument: IndexDocument, keyword: string): RankedProviderMatch[] {
+export function searchProviders(
+  indexDocument: IndexDocument,
+  keyword: string,
+): RankedProviderMatch[] {
   const needle = normalizeNeedle(keyword);
   if (!needle) {
     return [];
@@ -190,11 +199,18 @@ export function searchProviders(indexDocument: IndexDocument, keyword: string): 
     for (const field of [provider.id, provider.display_name, provider.name]) {
       const match = maybeMatchField(field, needle, "exact-name");
       if (match) {
-        candidates.push({ reason: match.reason as RankedProviderMatch["reason"], tieBreaker: match.tieBreaker });
+        candidates.push({
+          reason: match.reason as RankedProviderMatch["reason"],
+          tieBreaker: match.tieBreaker,
+        });
       }
     }
 
-    candidates.sort((left, right) => buildSortScore(left.reason, left.tieBreaker) - buildSortScore(right.reason, right.tieBreaker));
+    candidates.sort(
+      (left, right) =>
+        buildSortScore(left.reason, left.tieBreaker) -
+        buildSortScore(right.reason, right.tieBreaker),
+    );
     const best = candidates[0];
     if (best) {
       pushProviderMatch(matches, provider, best.reason, best.tieBreaker);
@@ -272,7 +288,11 @@ function rankModelMatches(
     const bestMatches = fields
       .map((field) => maybeMatchField(field.value, needle, field.reason))
       .filter((value): value is { reason: MatchReason; tieBreaker: number } => Boolean(value))
-      .sort((left, right) => buildSortScore(left.reason, left.tieBreaker) - buildSortScore(right.reason, right.tieBreaker));
+      .sort(
+        (left, right) =>
+          buildSortScore(left.reason, left.tieBreaker) -
+          buildSortScore(right.reason, right.tieBreaker),
+      );
 
     const best = bestMatches[0];
     if (best) {
@@ -334,17 +354,25 @@ export function pickStrongModelMatch(matches: RankedModelMatch[]): RankedModelMa
   return undefined;
 }
 
-export function resolveProviderCandidates(indexDocument: IndexDocument, keyword: string): RankedProviderMatch[] {
+export function resolveProviderCandidates(
+  indexDocument: IndexDocument,
+  keyword: string,
+): RankedProviderMatch[] {
   return searchProviders(indexDocument, keyword);
 }
 
-export function getModelsForProvider(indexDocument: IndexDocument, providerId: string): IndexedModel[] {
+export function getModelsForProvider(
+  indexDocument: IndexDocument,
+  providerId: string,
+): IndexedModel[] {
   const needle = normalizeNeedle(providerId);
 
   return indexDocument.models.filter((model) => normalizeNeedle(model.provider_id) === needle);
 }
 
-export function collectKnownExtraFields(model: IndexedModel): Array<[label: string, value: string]> {
+export function collectKnownExtraFields(
+  model: IndexedModel,
+): Array<[label: string, value: string]> {
   const knownModelKeys = new Set([
     "id",
     "name",

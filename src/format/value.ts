@@ -33,7 +33,9 @@ export function formatLimit(value: number | undefined): string {
   return formatInteger(value);
 }
 
-export function modelLabel(model: Pick<IndexedModel, "model_id" | "model_name" | "model_display_name">): string {
+export function modelLabel(
+  model: Pick<IndexedModel, "model_id" | "model_name" | "model_display_name">,
+): string {
   const primary = model.model_display_name ?? model.model_name ?? model.model_id;
   if (primary !== model.model_id) {
     return `${primary} (${model.model_id})`;
@@ -43,7 +45,9 @@ export function modelLabel(model: Pick<IndexedModel, "model_id" | "model_name" |
 }
 
 export function providerLabel(
-  provider: Pick<IndexedProvider, "id" | "name" | "display_name"> | Pick<IndexedModel, "provider_id" | "provider_name" | "provider_display_name">,
+  provider:
+    | Pick<IndexedProvider, "id" | "name" | "display_name">
+    | Pick<IndexedModel, "provider_id" | "provider_name" | "provider_display_name">,
 ): string {
   if ("id" in provider) {
     const primary = provider.display_name ?? provider.name ?? provider.id;

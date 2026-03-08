@@ -23,12 +23,16 @@ export function compareModelMatches(left: RankedModelMatch, right: RankedModelMa
   }
 
   const leftLabel = left.model.model_display_name ?? left.model.model_name ?? left.model.model_id;
-  const rightLabel = right.model.model_display_name ?? right.model.model_name ?? right.model.model_id;
+  const rightLabel =
+    right.model.model_display_name ?? right.model.model_name ?? right.model.model_id;
 
   return leftLabel.localeCompare(rightLabel);
 }
 
-export function compareProviderMatches(left: RankedProviderMatch, right: RankedProviderMatch): number {
+export function compareProviderMatches(
+  left: RankedProviderMatch,
+  right: RankedProviderMatch,
+): number {
   if (left.sort_score !== right.sort_score) {
     return left.sort_score - right.sort_score;
   }

@@ -1,4 +1,10 @@
-import { APP_NAME, APP_VERSION, REMOTE_DATASET_URL, REMOTE_VERSION_URL, getCachePaths } from "../core/config.js";
+import {
+  APP_NAME,
+  APP_VERSION,
+  REMOTE_DATASET_URL,
+  REMOTE_VERSION_URL,
+  getCachePaths,
+} from "../core/config.js";
 import type { CachePaths } from "../core/config.js";
 import { ModelinfoError, toErrorMessage } from "../core/errors.js";
 import { logWarn } from "../core/logger.js";
@@ -31,14 +37,21 @@ async function fetchJson(url: string): Promise<unknown> {
     });
 
     if (!response.ok) {
-      throw new ModelinfoError(`Request failed: ${response.status} ${response.statusText}`, "REMOTE_FETCH_FAILED");
+      throw new ModelinfoError(
+        `Request failed: ${response.status} ${response.statusText}`,
+        "REMOTE_FETCH_FAILED",
+      );
     }
 
     return (await response.json()) as unknown;
   } catch (error) {
-    throw new ModelinfoError(`Failed to fetch ${url}: ${toErrorMessage(error)}`, "REMOTE_FETCH_FAILED", {
-      cause: error,
-    });
+    throw new ModelinfoError(
+      `Failed to fetch ${url}: ${toErrorMessage(error)}`,
+      "REMOTE_FETCH_FAILED",
+      {
+        cause: error,
+      },
+    );
   } finally {
     clearTimeout(timer);
   }
@@ -50,7 +63,10 @@ export async function fetchRemoteVersion(): Promise<{ updatedAt: number }> {
   const updatedAt = toTimestamp(parsed.updated_at);
 
   if (!updatedAt) {
-    throw new ModelinfoError("Remote version file is missing a valid updated_at timestamp.", "INVALID_REMOTE_VERSION");
+    throw new ModelinfoError(
+      "Remote version file is missing a valid updated_at timestamp.",
+      "INVALID_REMOTE_VERSION",
+    );
   }
 
   return { updatedAt };

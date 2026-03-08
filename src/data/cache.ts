@@ -7,7 +7,9 @@ import { parseDataset, parseIndexDocument } from "./schema.js";
 import { copyFileSafe, ensureDir, fileExists, readJsonFile, writeJsonAtomic } from "../utils/fs.js";
 import { createVersionState } from "./version.js";
 
-export async function ensureSeededCache(cachePaths: CachePaths = getCachePaths()): Promise<boolean> {
+export async function ensureSeededCache(
+  cachePaths: CachePaths = getCachePaths(),
+): Promise<boolean> {
   const seedPaths = getSeedPaths();
   await ensureDir(cachePaths.dir);
 
@@ -81,7 +83,9 @@ export async function writeIndexDocument(
   await writeJsonAtomic(cachePaths.index, value);
 }
 
-export async function readRawDataset(cachePaths: CachePaths = getCachePaths()): Promise<RawDataset | undefined> {
+export async function readRawDataset(
+  cachePaths: CachePaths = getCachePaths(),
+): Promise<RawDataset | undefined> {
   if (!(await fileExists(cachePaths.raw))) {
     return undefined;
   }

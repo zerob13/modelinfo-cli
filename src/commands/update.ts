@@ -1,9 +1,15 @@
 import { getCachePaths } from "../core/config.js";
 import { syncCacheFromRemote } from "../data/remote.js";
+import { updateToJson, writeJson, type OutputFormat } from "../format/json.js";
 import { formatTimestamp } from "../utils/time.js";
 
-export async function runUpdateCommand(): Promise<void> {
+export async function runUpdateCommand(options?: { output?: OutputFormat }): Promise<void> {
   const result = await syncCacheFromRemote(getCachePaths());
+  if (options?.output === "json") {
+    writeJson(updateToJson(result));
+    return;
+  }
+
   const lines = [
     "Update Summary",
     `  Updated       : ${result.updated ? "yes" : "no"}`,

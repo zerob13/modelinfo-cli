@@ -1,6 +1,16 @@
-import { resolveModelCandidates, resolveProviderCandidates, pickStrongModelMatch } from "../data/index.js";
+import {
+  resolveModelCandidates,
+  resolveProviderCandidates,
+  pickStrongModelMatch,
+} from "../data/index.js";
 import { ensureRuntimeIndex } from "../data/remote.js";
-import type { IndexDocument, IndexedModel, IndexedProvider, RankedModelMatch, RankedProviderMatch } from "../data/types.js";
+import type {
+  IndexDocument,
+  IndexedModel,
+  IndexedProvider,
+  RankedModelMatch,
+  RankedProviderMatch,
+} from "../data/types.js";
 
 export interface ModelResolution {
   index: IndexDocument;
@@ -31,7 +41,10 @@ function pickStrongProviderMatch(matches: RankedProviderMatch[]): RankedProvider
   return undefined;
 }
 
-export async function resolveModelQuery(query: string, provider?: string): Promise<ModelResolution> {
+export async function resolveModelQuery(
+  query: string,
+  provider?: string,
+): Promise<ModelResolution> {
   const { index } = await ensureRuntimeIndex();
   const matches = resolveModelCandidates(index, query, { provider });
 

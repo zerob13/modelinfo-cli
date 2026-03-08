@@ -1,22 +1,45 @@
 import type { CacheVersionState, IndexedModel, IndexDocument } from "../data/types.js";
 import { collectKnownExtraFields } from "../data/index.js";
-import { formatBoolean, formatCost, formatLimit, formatList, formatMaybe, modelLabel, providerLabel } from "./value.js";
+import {
+  formatBoolean,
+  formatCost,
+  formatLimit,
+  formatList,
+  formatMaybe,
+  modelLabel,
+  providerLabel,
+} from "./value.js";
 import { formatTimestamp } from "../utils/time.js";
 
 function renderBlock(title: string, rows: Array<[label: string, value: string]>): string {
   const width = rows.reduce((current, [label]) => Math.max(current, label.length), 0);
-  const body = rows.length === 0 ? "  -" : rows.map(([label, value]) => `  ${label.padEnd(width, " ")} : ${value}`).join("\n");
+  const body =
+    rows.length === 0
+      ? "  -"
+      : rows.map(([label, value]) => `  ${label.padEnd(width, " ")} : ${value}`).join("\n");
 
   return `${title}\n${body}`;
 }
 
 function renderExtraFields(model: IndexedModel): string | undefined {
-  const metadata = typeof model.raw.metadata === "object" && model.raw.metadata !== null ? model.raw.metadata : undefined;
+  const metadata =
+    typeof model.raw.metadata === "object" && model.raw.metadata !== null
+      ? model.raw.metadata
+      : undefined;
   const extras: Array<[string, string]> = [];
 
   if (metadata) {
     for (const [key, value] of Object.entries(metadata)) {
-      if (["description", "features", "typeHints", "pricing", "inputModalities", "modalities"].includes(key)) {
+      if (
+        [
+          "description",
+          "features",
+          "typeHints",
+          "pricing",
+          "inputModalities",
+          "modalities",
+        ].includes(key)
+      ) {
         continue;
       }
 
@@ -136,8 +159,14 @@ export function renderDoctor(
     ["Raw Path", paths.raw],
     ["Version Path", paths.version],
     ["Index Path", paths.index],
-    ["Local Version", versionState?.local_updated_at ? formatTimestamp(versionState.local_updated_at) : "-"],
-    ["Last Checked", versionState?.last_checked_at ? formatTimestamp(versionState.last_checked_at) : "-"],
+    [
+      "Local Version",
+      versionState?.local_updated_at ? formatTimestamp(versionState.local_updated_at) : "-",
+    ],
+    [
+      "Last Checked",
+      versionState?.last_checked_at ? formatTimestamp(versionState.last_checked_at) : "-",
+    ],
     ["Cache Origin", versionState?.cache_origin ?? "-"],
     ["Providers", indexDocument ? String(indexDocument.provider_count) : "-"],
     ["Models", indexDocument ? String(indexDocument.model_count) : "-"],
