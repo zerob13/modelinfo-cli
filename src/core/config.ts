@@ -3,7 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const APP_NAME = "modelinfo";
-export const APP_VERSION = "0.1.0";
+export const APP_VERSION = "0.1.1";
 export const INDEX_SCHEMA_VERSION = 1;
 export const VERSION_CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000;
 export const REMOTE_VERSION_URL =
